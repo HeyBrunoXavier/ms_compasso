@@ -8,7 +8,7 @@ Essa api foi projetada para um cadastro de cidades e clientes, onde o intuito é
 
 - Node.JS(Javascript) - Doc https://nodejs.org/pt-br/docs/
 - Postgres(Banco em local) Doc - https://www.postgresql.org/docs/
-- Swagger(Documentação) Doc - http://localhost:4200/doc/swagger/
+- Swagger(Documentação) Doc - http://localhost:3000/doc/swagger/
 
 ## Execução do projeto
 
