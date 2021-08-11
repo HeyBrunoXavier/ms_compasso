@@ -1,5 +1,3 @@
-# Teste para candidatos à vaga de desenvolvedor Back-end NodeJS
-
 # Aplicação Back-end NodeJS
 
 ## Explicação desse projeto
