@@ -1,0 +1,1141 @@
+{
+	"swagger":"2.0",
+	"info":{
+		"description":"Documentation of Compasso routes",
+		"title":"Compasso"
+	},
+	"host":"127.0.0.1:4200",
+	"basePath":"/doc/swagger",
+	"tags":[
+		{
+			"name": "Public",
+			"description": "Rotas públicas"
+		},
+		{
+			"name": "City",
+			"description": "Rotas de gerenciamento de cidades"
+		},
+		{
+			"name": "Client",
+			"description": "Rotas de gerenciamento de clientes"
+		}
+	],
+	"schemes":[
+		"http"
+	],
+	"paths":{
+		"/": {
+			"get": {
+				"tags": [
+					"Public"
+				],
+				"summary": "Apresentação",
+				"description": "Apresentação da aplicação",
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Operação realizada sucedida",
+						"schema": {
+							"type": "object",
+							"required": [
+								"service",
+								"environment",
+								"version",
+								"loglevel"
+							],
+							"properties": {
+								"service": {
+									"type": "string",
+									"description": "nome do serviço",
+									"example": "ms-compasso"
+								},
+								"environment": {
+									"type": "string",
+									"enum": [
+										"dev",
+										"prod"
+									],
+									"description": "ambiente do serviço \n * dev - desenvolvimento\n * prod - produção",
+									"example": "prod"
+								},
+								"version": {
+									"type": "string",
+									"description": "versão do serviço",
+									"pattern": "^\\d+\\.\\d+\\.\\d+$",
+									"example": "1.0.0"
+								},
+								"loglevel": {
+									"type": "number",
+									"format": "int8",
+									"description": "nível de log",
+									"example": "0"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição inválida"
+					}
+				}
+			}
+		},
+		"/v1/user/": {
+			"get": {
+				"tags": [
+					"City"
+				],
+				"summary": "Listagem de cidades",
+				"description": "Lista a cidade",
+				"parameters": [],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Operação realizada sucedida",
+						"schema": {
+							"type": "array",
+							"description": "lista de objetos de dados sobre os usuários",
+							"items": {
+								"type": "object",
+								"required": [
+									"name",
+									"state",
+									"initials",
+									"created"
+								],
+								"properties": {
+									"name": {
+										"type": "string",
+										"description": "nome da cidade",
+										"example": "São Paulo"
+									},
+									"state": {
+										"type": "string",
+										"description": "estado da cidade",
+										"example": "São Paulo"
+									},
+									"initials": {
+										"type": "string",
+										"description": "Sigla do estado",
+										"example": "SP"
+									},
+									"created": {
+										"type": "string",
+										"format": "datetime",
+										"description": "Horário da criação do registro",
+										"example": "2020-01-01 00:00:00"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_VIA_HEADER_EMPTY"
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"City"
+				],
+				"summary": "Inserção de cidades",
+				"description": "Insere uma cidade",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+					"in": "body",
+					"name": "JSON",
+					"required": true,
+					"schema": {
+						"type": "object",
+						"required": [
+							"name",
+							"state",
+							"initials"
+						],
+						"properties": {
+							"name": {
+								"type": "string",
+								"description": "nome da cidade",
+								"example": "Fronteira dos Vales"
+							},
+							"state": {
+								"type": "string",
+								"description": "estado da cidade",
+								"example": "Minas Gerais"
+							},
+							"initials": {
+								"type": "string",
+								"description": "Sigla do estado",
+								"example": "MG"
+							}
+						}
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "Operação realizada sucedida",
+						"schema": {
+							"type": "array",
+							"description": "lista de objetos de dados sobre os usuários",
+							"items": {
+								"type": "object",
+								"required": [
+									"name",
+									"state",
+									"initials",
+									"created"
+								],
+								"properties": {
+									"name": {
+										"type": "string",
+										"description": "nome da cidade",
+										"example": "São Paulo"
+									},
+									"state": {
+										"type": "string",
+										"description": "estado da cidade",
+										"example": "São Paulo"
+									},
+									"initials": {
+										"type": "string",
+										"description": "Sigla do estado",
+										"example": "SP"
+									},
+									"created": {
+										"type": "string",
+										"format": "datetime",
+										"description": "Horário da criação do registro",
+										"example": "2020-01-01 00:00:00"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_VIA_HEADER_EMPTY"
+						}
+					},
+					"406": {
+						"description": "Falha na requisição",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_NAME_FIELD_EMPTY",
+							"enum": [
+								"ERR_NAME_FIELD_EMPTY",
+								"ERR_STATE_FIELD_EMPTY",
+								"ERR_INITIALS_FIELD_EMPTY"
+							]
+						}
+					}
+				}
+			}
+		},
+		"/v1/user/{name}": {
+			"get": {
+				"tags": [
+					"City"
+				],
+				"summary": "Visualização de cidades por nome",
+				"description": "Visualiza a cidade por nome",
+				"parameters": [
+					{
+						"name": "name",
+						"in": "path",
+						"description": "Nome da cidade",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Operação realizada sucedida",
+						"schema": {
+							"type": "array",
+							"description": "lista de objetos de dados sobre as cidades",
+							"items": {
+								"type": "object",
+								"required": [
+									"name",
+									"state",
+									"initials",
+									"created"
+								],
+								"properties": {
+									"name": {
+										"type": "string",
+										"description": "nome da cidade",
+										"example": "Juazeiro"
+									},
+									"state": {
+										"type": "string",
+										"description": "estado da cidade",
+										"example": "Bahia"
+									},
+									"initials": {
+										"type": "string",
+										"description": "Sigla do estado",
+										"example": "BA"
+									},
+									"created": {
+										"type": "string",
+										"format": "datetime",
+										"description": "Horário da criação do registro",
+										"example": "2020-01-01 00:00:00"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_VIA_HEADER_EMPTY"
+						}
+					},
+					"404": {
+						"description": "Acesso inválido",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_NAME_NOT_FOUND"
+						}
+					}
+				}
+			}
+		},
+		"/v1/user/{state}": {
+			"get": {
+				"tags": [
+					"City"
+				],
+				"summary": "Visualização de cidades por estado",
+				"description": "Visualiza a cidade por estado",
+				"parameters": [
+					{
+						"name": "state",
+						"in": "path",
+						"description": "estado da cidade",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Operação realizada sucedida",
+						"schema": {
+							"type": "array",
+							"description": "lista de objetos de dados sobre as cidades",
+							"items": {
+								"type": "object",
+								"required": [
+									"name",
+									"state",
+									"initials",
+									"created"
+								],
+								"properties": {
+									"name": {
+										"type": "string",
+										"description": "nome da cidade",
+										"example": "Vitória da Conquista"
+									},
+									"state": {
+										"type": "string",
+										"description": "estado da cidade",
+										"example": "Bahia"
+									},
+									"initials": {
+										"type": "string",
+										"description": "Sigla do estado",
+										"example": "BA"
+									},
+									"created": {
+										"type": "string",
+										"format": "datetime",
+										"description": "Horário da criação do registro",
+										"example": "2020-01-01 00:00:00"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_VIA_HEADER_EMPTY"
+						}
+					},
+					"404": {
+						"description": "Acesso inválido",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_NAME_NOT_FOUND"
+						}
+					}
+				}
+			}
+		},
+		"/v1/user/{initials}": {
+			"get": {
+				"tags": [
+					"City"
+				],
+				"summary": "Visualização de cidades por sigla",
+				"description": "Visualiza a cidade por sigla",
+				"parameters": [
+					{
+						"name": "Sigla",
+						"in": "path",
+						"description": "sigla da cidade",
+						"required": true,
+						"type": "string"
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Operação realizada sucedida",
+						"schema": {
+							"type": "array",
+							"description": "lista de objetos de dados sobre as cidades",
+							"items": {
+								"type": "object",
+								"required": [
+									"name",
+									"state",
+									"initials",
+									"created"
+								],
+								"properties": {
+									"name": {
+										"type": "string",
+										"description": "nome da cidade",
+										"example": "Vitória da Conquista"
+									},
+									"state": {
+										"type": "string",
+										"description": "estado da cidade",
+										"example": "Bahia"
+									},
+									"initials": {
+										"type": "string",
+										"description": "Sigla do estado",
+										"example": "BA"
+									},
+									"created": {
+										"type": "string",
+										"format": "datetime",
+										"description": "Horário da criação do registro",
+										"example": "2020-01-01 00:00:00"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_VIA_HEADER_EMPTY"
+						}
+					},
+					"404": {
+						"description": "Acesso inválido",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_NAME_NOT_FOUND"
+						}
+					}
+				}
+			}
+		},
+		"/v1/client/": {
+			"get": {
+				"tags": [
+					"Client"
+				],
+				"summary": "Listagem de clientes",
+				"description": "Lista os clientes",
+				"parameters": [],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Operação realizada sucedida",
+						"schema": {
+							"type": "array",
+							"description": "lista de objetos de dados sobre os clientes",
+							"items": {
+								"type": "object",
+								"required": [
+									"id",
+									"name",
+									"genre",
+									"date-birth",
+									"year",
+									"city",
+									"hash",
+									"created"
+								],
+								"properties": {
+									"id": {
+										"type": "string",
+										"format": "uuid",
+										"description": "ID do cliente",
+										"example": "00000000-0000-0000-0000-000000000000"
+									},
+									"name": {
+										"type": "string",
+										"description": "nome do cliente",
+										"example": "admin"
+									},
+									"genre": {
+										"type": "string",
+										"description": "genero do cliente",
+										"example": "others"
+										
+									},
+									"date-birth": {
+										"type": "string",
+										"description": "data de nascimento do cliente",
+										"example": "1998-06-01"
+									},
+									"year":{
+										"type": "int",
+										"format":"int8",
+										"description": "idade do cliente",
+										"example": "20"
+									},
+									"city": {
+										"type": "object",
+										"description": "cidade onde mora o cliente",
+										"example": "São Paulo"
+									},
+									"hash": {
+										"type": "string",
+										"format": "uuid",
+										"description": "hash do registro",
+										"example": "00000000-0000-0000-0000-000000000000"
+									},
+									"created": {
+										"type": "string",
+										"format": "datetime",
+										"description": "Horário da criação do registro",
+										"example": "2020-01-01 00:00:00"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_VIA_HEADER_EMPTY"
+						}
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"Client"
+				],
+				"summary": "Inserção de clientes",
+				"description": "Insere os clientes",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+					"in": "body",
+					"name": "JSON",
+					"required": true,
+					"schema": {
+						"type": "object",
+						"required": [
+							"name",
+							"genre",
+							"year",
+							"date",
+							"city"
+						],
+						"properties": {
+							"id": {
+								"type": "string",
+								"format": "uuid",
+								"description": "ID do cliente",
+								"example": "00000000-0000-0000-0000-000000000000"
+							},
+							"name": {
+								"type": "string",
+								"description": "nome do cliente",
+								"example": "admin"
+							},
+							"genre": {
+								"type": "string",
+								"description": "genero do cliente",
+								"example": "others"
+								
+							},
+							"date-birth": {
+								"type": "string",
+								"description": "data de nascimento do cliente",
+								"example": "1998-06-01"
+							},
+							"year":{
+								"type": "int",
+								"format":"int8",
+								"description": "idade do cliente",
+								"example": "20"
+							},
+							"city": {
+								"type": "object",
+								"description": "cidade onde mora o cliente",
+								"example": "São Paulo"
+							}
+						}
+					}
+				}],
+				"responses": {
+					"200": {
+						"description": "Operação realizada sucedida",
+						"schema": {
+							"type": "array",
+							"description": "lista de objetos de dados sobre os clientes",
+							"items": {
+								"type": "object",
+								"required": [
+									"id",
+									"name",
+									"genre",
+									"date-birth",
+									"year",
+									"city",
+									"hash",
+									"created"
+								],
+								"properties": {
+									"id": {
+										"type": "string",
+										"format": "uuid",
+										"description": "ID do cliente",
+										"example": "00000000-0000-0000-0000-000000000000"
+									},
+									"name": {
+										"type": "string",
+										"description": "nome do cliente",
+										"example": "admin"
+									},
+									"genre": {
+										"type": "string",
+										"description": "genero do cliente",
+										"example": "others"
+										
+									},
+									"date-birth": {
+										"type": "string",
+										"description": "data de nascimento do cliente",
+										"example": "1998-06-01"
+									},
+									"year":{
+										"type": "int",
+										"format":"int8",
+										"description": "idade do cliente",
+										"example": "20"
+									},
+									"city": {
+										"type": "object",
+										"description": "cidade onde mora o cliente",
+										"example": "São Paulo"
+									},
+									"hash": {
+										"type": "string",
+										"format": "uuid",
+										"description": "hash do registro",
+										"example": "00000000-0000-0000-0000-000000000000"
+									},
+									"created": {
+										"type": "string",
+										"format": "datetime",
+										"description": "Horário da criação do registro",
+										"example": "2020-01-01 00:00:00"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_VIA_HEADER_EMPTY"
+						}
+					},
+					"403": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_GENRE_TYPE_IS_NOT_EXIST"
+						}
+					},
+					"406": {
+						"description": "Falha na requisição",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_NAME_FIELD_EMPTY",
+							"enum": [
+								"ERR_DESCRIPTION_FIELD_EMPTY",
+								"ERR_GENRE_FIELD_EMPTY",
+								"ERR_DATE_OF_BIRTH_FIELD_EMPTY",
+								"ERR_YEAR_FIELD_EMPTY",
+								"ERR_CITY_FIELD_EMPTY"
+							]
+						}
+					}
+				}
+			}
+		},
+		"/v1/client/{id}": {
+			"get": {
+				"tags": [
+					"Client"
+				],
+				"summary": "Visualização de clientes",
+				"description": "Visualiza o cliente",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "ID do cliente",
+						"required": true,
+						"type": "string",
+						"format": "uuid"
+					}
+				],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Operação realizada sucedida",
+						"schema": {
+							"type": "array",
+							"description": "lista de objetos de dados sobre os clientes",
+							"items": {
+								"type": "object",
+								"required": [
+									"id",
+									"name",
+									"genre",
+									"date-birth",
+									"year",
+									"city",
+									"hash",
+									"created"
+								],
+								"properties": {
+									"id": {
+										"type": "string",
+										"format": "uuid",
+										"description": "ID do cliente",
+										"example": "00000000-0000-0000-0000-000000000000"
+									},
+									"name": {
+										"type": "string",
+										"description": "nome do cliente",
+										"example": "admin"
+									},
+									"genre": {
+										"type": "string",
+										"description": "genero do cliente",
+										"example": "others"
+										
+									},
+									"date-birth": {
+										"type": "string",
+										"description": "data de nascimento do cliente",
+										"example": "1998-06-01"
+									},
+									"year":{
+										"type": "int",
+										"format":"int8",
+										"description": "idade do cliente",
+										"example": "20"
+									},
+									"city": {
+										"type": "object",
+										"description": "cidade onde mora o cliente",
+										"example": "São Paulo"
+									},
+									"hash": {
+										"type": "string",
+										"format": "uuid",
+										"description": "hash do registro",
+										"example": "00000000-0000-0000-0000-000000000000"
+									},
+									"created": {
+										"type": "string",
+										"format": "datetime",
+										"description": "Horário da criação do registro",
+										"example": "2020-01-01 00:00:00"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_VIA_HEADER_EMPTY"
+						}
+					},
+					"404": {
+						"description": "Acesso inválido",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_ID_NOT_FOUND"
+						}
+					}
+				}
+			},
+			"put": {
+				"tags": [
+					"Client"
+				],
+				"summary": "Atualização de clientes",
+				"description": "Atualiza o cliente",
+				"consumes": [
+					"application/json"
+				],
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+					{
+						"name": "ID",
+						"in": "path",
+						"description": "ID do cliente",
+						"required": true,
+						"type": "string",
+						"format": "uuid"
+					},
+					{
+						"name": "transaction-hash",
+						"in": "header",
+						"description": "hash do registro",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"in": "body",
+						"name": "JSON",
+						"required": true,
+						"schema": {
+							"type": "object",
+							"required": [
+								"name",
+								"genre",
+								"year",
+								"date",
+								"city"
+							],
+							"properties": {
+								"id": {
+									"type": "string",
+									"format": "uuid",
+									"description": "ID do cliente",
+									"example": "00000000-0000-0000-0000-000000000000"
+								},
+								"name": {
+									"type": "string",
+									"description": "nome do cliente",
+									"example": "developer"
+								},
+								"genre": {
+									"type": "string",
+									"description": "genero do cliente",
+									"example": "others"
+									
+								},
+								"date-birth": {
+									"type": "string",
+									"description": "data de nascimento do cliente",
+									"example": "1998-06-01"
+								},
+								"year":{
+									"type": "int",
+									"format":"int8",
+									"description": "idade do cliente",
+									"example": "20"
+								},
+								"city": {
+									"type": "object",
+									"description": "cidade onde mora o cliente",
+									"example": "São Paulo"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Operação realizada sucedida",
+						"schema": {
+							"type": "array",
+							"description": "lista de objetos de dados sobre os clientes",
+							"items": {
+								"type": "object",
+								"required": [
+									"id",
+									"name",
+									"genre",
+									"date-birth",
+									"year",
+									"city",
+									"hash",
+									"created"
+								],
+								"properties": {
+									"id": {
+										"type": "string",
+										"format": "uuid",
+										"description": "ID do cliente",
+										"example": "00000000-0000-0000-0000-000000000000"
+									},
+									"name": {
+										"type": "string",
+										"description": "nome do cliente",
+										"example": "admin"
+									},
+									"genre": {
+										"type": "string",
+										"description": "genero do cliente",
+										"example": "others"
+										
+									},
+									"date-birth": {
+										"type": "string",
+										"description": "data de nascimento do cliente",
+										"example": "1998-06-01"
+									},
+									"year":{
+										"type": "int",
+										"format":"int8",
+										"description": "idade do cliente",
+										"example": "20"
+									},
+									"city": {
+										"type": "object",
+										"description": "cidade onde mora o cliente",
+										"example": "São Paulo"
+									},
+									"hash": {
+										"type": "string",
+										"format": "uuid",
+										"description": "hash do registro",
+										"example": "00000000-0000-0000-0000-000000000000"
+									},
+									"created": {
+										"type": "string",
+										"format": "datetime",
+										"description": "Horário da criação do registro",
+										"example": "2020-01-01 00:00:00"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_VIA_HEADER_EMPTY"
+						}
+					},
+					"403": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_GENRE_TYPE_IS_NOT_EXIST"
+						}
+					},
+					"406": {
+						"description": "Falha na requisição",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_NAME_FIELD_EMPTY",
+							"enum": [
+								"ERR_DESCRIPTION_FIELD_EMPTY",
+								"ERR_HASH_FIELD_EMPTY",
+								"ERR_GENRE_FIELD_EMPTY",
+								"ERR_DATE_OF_BIRTH_FIELD_EMPTY",
+								"ERR_YEAR_FIELD_EMPTY",
+								"ERR_CITY_FIELD_EMPTY"
+							]
+						}
+					}
+				}
+			},
+			"delete": {
+				"tags": [
+					"Client"
+				],
+				"summary": "Exclusão de clientes",
+				"description": "Exclui um cliente",
+				"parameters": [
+				{
+					"name": "id",
+					"in": "path",
+					"description": "ID do cliente",
+					"required": true,
+					"type": "string",
+					"format": "uuid"
+				},
+				{
+					"name": "transaction-hash",
+					"in": "header",
+					"description": "hash do registro",
+					"required": true,
+					"type": "string",
+					"format": "uuid"
+				}],
+				"produces": [
+					"application/json"
+				],
+				"responses": {
+					"200": {
+						"description": "Operação realizada sucedida",
+						"schema": {
+							"type": "array",
+							"description": "lista de objetos de dados sobre os clientes",
+							"items": {
+								"type": "object",
+								"required": [
+									"id",
+									"name",
+									"genre",
+									"date-birth",
+									"year",
+									"city",
+									"hash",
+									"created"
+								],
+								"properties": {
+									"id": {
+										"type": "string",
+										"format": "uuid",
+										"description": "ID do cliente",
+										"example": "00000000-0000-0000-0000-000000000000"
+									},
+									"name": {
+										"type": "string",
+										"description": "nome do cliente",
+										"example": "admin"
+									},
+									"genre": {
+										"type": "string",
+										"description": "genero do cliente",
+										"example": "others"
+										
+									},
+									"date-birth": {
+										"type": "string",
+										"description": "data de nascimento do cliente",
+										"example": "1998-06-01"
+									},
+									"year":{
+										"type": "int",
+										"format":"int8",
+										"description": "idade do cliente",
+										"example": "20"
+									},
+									"city": {
+										"type": "object",
+										"description": "cidade onde mora o cliente",
+										"example": "São Paulo"
+									},
+									"hash": {
+										"type": "string",
+										"format": "uuid",
+										"description": "hash do registro",
+										"example": "00000000-0000-0000-0000-000000000000"
+									},
+									"created": {
+										"type": "string",
+										"format": "datetime",
+										"description": "Horário da criação do registro",
+										"example": "2020-01-01 00:00:00"
+									}
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Requisição inválida",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_VIA_HEADER_EMPTY"
+						}
+					},
+					"404": {
+						"description": "Acesso inválido",
+						"schema": {
+							"type": "string",
+							"description": "Mensagem de erro",
+							"example": "ERR_ID_NOT_FOUND"
+						}
+					}
+				}
+			}
+		}
+	}
+}

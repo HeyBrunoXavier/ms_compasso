@@ -1,0 +1,30 @@
+{
+  "name": "ms-compasso",
+  "version": "1.0.0",
+  "description": "Aplicação para teste compass UOL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "author": "Bruno Xavier",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cli-table": "^0.3.4",
+    "colors": "^1.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-list-endpoints": "^5.0.0",
+    "express-useragent": "^1.0.15",
+    "knex": "^0.21.17",
+    "knex-migrate": "^1.7.4",
+    "os": "^0.1.1",
+    "pg": "^8.5.1",
+    "swagger-ui-express": "^4.1.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}
