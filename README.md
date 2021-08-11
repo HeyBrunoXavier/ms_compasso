@@ -14,4 +14,4 @@ Essa api foi projetada para um cadastro de cidades e clientes, onde o intuito é
 
 - **Importante:** Necessário ter o pgadmin3 ou 4 para fazer a conexão com o postgres (ms_compasso) banco de dados.
 
-- **Importante:** Para instalar as dependencias: abra o terminal e navegue ate a CompassApi/server e rode o seguinte comando **npm i**, depois do processo ter finalizado, rode o comando **npm run dev para subir a aplicação**
+- **Importante:** Para instalar as dependencias: abra o terminal e navegue ate a ms_compasso/server e rode o seguinte comando **npm i**, depois do processo ter finalizado, rode o comando **npm run dev para subir a aplicação**
