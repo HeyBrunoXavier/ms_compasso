@@ -2,7 +2,7 @@
 
 ## Explicação desse projeto
 
-Essa api foi projetada para um cadastro de cidades e clientes, onde o intuito é cadastrar,listar,alterar e remover os clientes e cadastrar e consultar a cidade.
+Essa api foi projetada para um cadastro de cidades e clientes, onde o intuito é cadastrar,listar,alterar e remover os clientes e cadastrar e consultar as cidades.
 
 ## Tecnologias utilizadas
 
