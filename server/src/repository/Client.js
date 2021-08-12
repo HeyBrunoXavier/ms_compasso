@@ -30,7 +30,7 @@ class Client {
 
   	async insert(name,genre,year,date,city){
 		try{
-			let o_response = await knex('client').insert({name:name, genre:genre, year:year, ['date-birth']:date, city:city}).returning("*");
+			const o_response = await knex('client').insert({name:name, genre:genre, year:year, ['date-birth']:date, city:city}).returning("*");
             return o_response;
 		}catch(error){
 			console.error(error);
@@ -47,7 +47,7 @@ class Client {
 
 	async view(id){
 		try{
-			let st_people = await knex('client').where({id: id}).first();
+			const st_people = await knex('client').where({id: id}).first();
 			return st_people;
 		}catch(error){
 			console.error(error);
@@ -64,7 +64,7 @@ class Client {
 
 	async update(id,name,genre,year,date,city,hash){
 		try{
-			let o_response = await knex('client').update({name: name, genre: genre, year: year, ['date-birth']: date, city: city, hash: hash}).where({id: id}).returning("*");
+			const o_response = await knex('client').update({name: name, genre: genre, year: year, ['date-birth']: date, city: city, hash: hash}).where({id: id}).returning("*");
 			return o_response;
 		}catch(error){
 			console.error(error);
@@ -81,7 +81,7 @@ class Client {
 
 	async delete(id){
 		try{
-			let o_response = await knex('client').where({id: id}).del().returning("*");
+			const o_response = await knex('client').where({id: id}).del().returning("*");
 			return o_response;
 		}catch(error){
 			console.error(error);

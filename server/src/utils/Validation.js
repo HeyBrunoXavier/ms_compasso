@@ -1,0 +1,10 @@
+class Validation { 
+
+    static existsOrError(value,status,msg) {
+        if (!value) throw msg;
+        if (!status) throw msg;
+        if (Array.isArray(value) && value.length === 0) throw msg;
+        if (typeof value == "string" && !value.trim()) throw msg;
+    }
+}
+module.exports = Validation;

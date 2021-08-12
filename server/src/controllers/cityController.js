@@ -1,4 +1,5 @@
-const City = require("../models/City");
+const City = require("../repository/City");
+const {existsOrError} = require('../utils/Validation');
 class cityController {
 	/**
    	* @method list
@@ -9,10 +10,7 @@ class cityController {
 
  	async list(request, response){
 		try{
-			const in_page = request.query.page ? request.query.page : 0;
-			const in_rows = request.query.rows ? request.query.rows : 100;
-			const st_author = request.query.author ? `'${request.query.author}'` : null;
-			const o_response = await City.list(in_page,in_rows,st_author);
+			const o_response = await City.list();
 			return response.json(o_response).status(200).end();
 		}
 		catch (error) {
@@ -31,22 +29,12 @@ class cityController {
  	async insert(request,response){
 		try{
 			const {st_name, st_state, st_initials} = request.body;
-			
-			if(!st_name) throw {
-				msg: "ERR_NAME_FIELD_EMPTY",
-				status: 406
-			}
-			if(!st_state) throw {
-				msg: "ERR_STATE_FIELD_EMPTY",
-				status: 406
-			}
-			if(!st_initials) throw {
-				msg: "ERR_INITIALS_FIELD_EMPTY",
-				status: 406
-			}
+			existsOrError(st_name,400,"ERR_NAME_FIELD_EMPTY");
+			existsOrError(st_state,400,"ERR_STATE_FIELD_EMPTY");
+			existsOrError(st_initials,400,"ERR_INITIALS_FIELD_EMPTY");
 			
 			const o_response = await City.insert(st_name,st_state,st_initials);
-			return response.json(o_response).status(200).end();
+			return response.json(o_response).status(201).end();
 		}
 		catch (error) {
 			console.error(error);
@@ -63,16 +51,9 @@ class cityController {
 
 	async view(request,response){
 		try{
-			const st_state = request.params.id;
-			if(!st_state) throw {
-				msg: "ERR_NAME_FIELD_EMPTY",
-				status: 406
-			}
-			const o_response = await City.view(st_state);
-			if(!o_response) throw {
-				msg: "ERR_STATE_NOT_FOUND",
-				status: 406
-			}
+			const st_name = request.params.id;
+			existsOrError(st_name,400,"ERR_NAME_FIELD_EMPTY");
+			const o_response = await City.view(st_name);
 			return response.json(o_response).status(200).end();
 		}
 		catch (error) {
@@ -91,15 +72,8 @@ class cityController {
 	async viewState(request,response){
 		try{
 			const st_state = request.params.id;
-			if(!st_state) throw {
-				msg: "ERR_NAME_FIELD_EMPTY",
-				status: 406
-			}
+			existsOrError(st_state,400,"ERR_STATE_FIELD_EMPTY");
 			const o_response = await City.viewState(st_state);
-			if(!o_response) throw {
-				msg: "ERR_STATE_NOT_FOUND",
-				status: 406
-			}
 			return response.json(o_response).status(200).end();
 		}
 		catch (error) {
@@ -118,15 +92,8 @@ class cityController {
 	async viewInitials(request,response){
 		try{
 			const st_initials = request.params.id;
-			if(!st_initials) throw {
-				msg: "ERR_NAME_FIELD_EMPTY",
-				status: 406
-			}
+			existsOrError(st_initials,400,"ERR_INITIALS_FIELD_EMPTY");
 			const o_response = await City.viewInitials(st_initials);
-			if(!o_response) throw {
-				msg: "ERR_STATE_NOT_FOUND",
-				status: 406
-			}
 			return response.json(o_response).status(200).end();
 		}
 		catch (error) {

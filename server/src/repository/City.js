@@ -9,7 +9,7 @@ class City {
    */
   async list(){
 		try {
-			let o_response = await knex.select("*").from("city");
+			const o_response = await knex.select("*").from("city");
 			if(o_response.length > 0)
 				return o_response;
 		}catch (erro) {
@@ -35,13 +35,13 @@ class City {
 
 	/**
    	* @method view
-   	* @param {*} people
+   	* @param {*} name
    	* @author HeyBrunoXavier
    	* @description Visualização de pelo nome cidades
    	*/
 	async view(name){
 		try{
-			let o_response = await knex('city').where({name: name}).first();
+			const o_response = await knex('city').where({name: name}).first();
 			return o_response;
 		}catch(error){
 			console.error(error);
@@ -57,7 +57,7 @@ class City {
    	*/
 	   async viewState(state){
 		try{
-			let o_response = await knex.select("*").from('city').where({state: state}).returning("*");
+			const o_response = await knex.select("*").from('city').where({state: state}).returning("*");
 			return o_response;
 		}catch(error){
 			console.error(error);
@@ -73,7 +73,7 @@ class City {
    	*/
 	   async viewInitials(initials){
 		try{
-			let o_response = await knex.select("*").from('city').where({initials: initials}).returning("*");
+			const o_response = await knex.select("*").from('city').where({initials: initials}).returning("*");
 			return o_response;
 		}catch(error){
 			console.error(error);

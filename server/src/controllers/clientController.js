@@ -1,5 +1,6 @@
-const Client = require("../models/Client");
+const Client = require("../repository/Client");
 const Parse = require("../utils/Parser");
+const {existsOrError} = require('../utils/Validation');
 class clientController {
 
 	/**
@@ -30,34 +31,16 @@ class clientController {
 		try {
 			const { st_name, st_genre, in_year, st_city } = request.body;
 			const dt_date = Parse.ParserDate(request.body.dt_date);
-			console.log(dt_date);
-			if (!st_name) throw {
-				msg: "ERR_NAME_FIELD_EMPTY",
-				status: 406
-			}
-			if (!st_genre) throw {
-				msg: "ERR_GENRE_FIELD_EMPTY",
-				status: 406
-			}
-			if (!dt_date) throw {
-				msg: "ERR_DATE_OF_BIRTH_FIELD_EMPTY",
-				status: 406
-			}
-			if (!in_year) throw {
-				msg: "ERR_YEAR_FIELD_EMPTY",
-				status: 406
-			}
-			if (!st_city) throw {
-				msg: "ERR_CITY_FIELD_EMPTY",
-				status: 406
-			}
+			existsOrError(st_name,400,"ERR_NAME_FIELD_EMPTY");
+			existsOrError(st_genre,400,"ERR_GENRE_FIELD_EMPTY");
+			existsOrError(dt_date,400,"ERR_DATE_FIELD_EMPTY");
+			existsOrError(in_year,400,"ERR_YEAR_FIELD_EMPTY");
+			existsOrError(st_city,400,"ERR_CITY_FIELD_EMPTY");
 
 			const o_response = await Client.insert(st_name, st_genre, in_year, dt_date, st_city);
-			if(o_response.code == '22P02') throw {
-				msg: "ERR_GENRE_TYPE_IS_NOT_EXIST",
-				status: 403
-			}
-			return response.json(o_response).status(200).end();
+			if(o_response.code)
+				existsOrError(o_response.code,403,"ERR_GENRE_TYPE_IS_NOT_EXIST");
+			return response.json(o_response).status(201).end();
 		}
 		catch (error) {
 			console.error(error);
@@ -74,16 +57,8 @@ class clientController {
 	async view(request, response) {
 		try {
 			const st_user = request.params.id;
-			if (!st_user) throw {
-				msg: "ERR_ID_FIELD_EMPTY",
-				status: 406
-			}
-
+			existsOrError(st_user,400,"ERR_USER_NOT_FOUND");
 			const o_response = await Client.view(st_user);
-			if (o_response.code == '22P02') throw {
-				msg: "ERR_ID_NOT_FOUND",
-				status: 404
-			}
 			return response.json(o_response).status(200).end();
 		}
 		catch (error) {
@@ -105,37 +80,16 @@ class clientController {
 			const st_hash = request.headers['transaction-hash'];
 			const { st_name, st_genre, in_year, st_city } = request.body;
 			const dt_date = Parse.ParserDate(request.body.dt_date);
-
-			if (!st_name) throw {
-				msg: "ERR_NAME_FIELD_EMPTY",
-				status: 406
-			}
-			if (!st_genre) throw {
-				msg: "ERR_GENRE_FIELD_EMPTY",
-				status: 406
-			}
-			if (!dt_date) throw {
-				msg: "ERR_DATE_OF_BIRTH_FIELD_EMPTY",
-				status: 406
-			}
-			if (!in_year) throw {
-				msg: "ERR_YEAR_FIELD_EMPTY",
-				status: 406
-			}
-			if (!st_city) throw {
-				msg: "ERR_CITY_FIELD_EMPTY",
-				status: 406
-			}
-			if (!st_hash) throw {
-				msg: "ERR_HASH_FIELD_EMPTY",
-				status: 406
-			}
+			existsOrError(st_name,400,"ERR_NAME_FIELD_EMPTY");
+			existsOrError(st_genre,400,"ERR_GENRE_FIELD_EMPTY");
+			existsOrError(dt_date,400,"ERR_DATE_FIELD_EMPTY");
+			existsOrError(in_year,400,"ERR_YEAR_FIELD_EMPTY");
+			existsOrError(st_city,400,"ERR_CITY_FIELD_EMPTY");
+			existsOrError(st_hash,400,"ERR_HASH_FIELD_EMPTY");
 
 			let o_response = await Client.update(st_id, st_name, st_genre, in_year,dt_date, st_city, st_hash);
-			if (o_response.code == '22P02') throw {
-				msg: "ERR_GENRE_TYPE_IS_NOT_EXIST",
-				status: 403
-			}
+			if(o_response.code)
+				existsOrError(o_response.code,403,"ERR_GENRE_TYPE_IS_NOT_EXIST");
 			return response.json(o_response).status(200).end();
 		}
 		catch (error) {
@@ -155,24 +109,8 @@ class clientController {
 		try {
 			const st_id = request.params.id;
 			const st_hash = request.headers['transaction-hash'];
-
-			if (!st_id) throw {
-				msg: "ERR_ID_FIELD_EMPTY",
-				status: 406
-			}
-			if (!st_hash) throw {
-				msg: "ERR_HASH_FIELD_EMPTY",
-				status: 406
-			}
+			existsOrError(st_hash,400,"ERR_HASH_FIELD_EMPTY");
 			const o_response = await Client.delete(st_id, st_hash);
-			if (o_response.code == '22P02') throw {
-				msg: "ERR_ID_NOT_FOUND",
-				status: 404
-			}
-			if (o_response.constraint == 'fk_user_id_author') throw {
-				msg: "ERR_IT_IS_NOT_POSSIBLE_TO_DELETE_THIS_USER",
-				status: 406
-			}
 			return response.json(o_response).status(200).end();
 		}
 		catch (error) {
